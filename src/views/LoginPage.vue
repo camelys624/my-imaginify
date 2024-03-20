@@ -2,11 +2,8 @@
   <div class="login-container">
     <div class="login-wrapper">
       <div class="login-form-wrapper">
-        <div class="icon-wrapper">
-          <img :src="icon" style="width: 35px;" alt="icon" />
-          <span>Imaginify</span>
-        </div>
-        <p style="margin: 20px 0;">一些描述</p>
+        <IconLogo />
+        <p style="margin: 20px 0">一些描述</p>
         <el-form
           ref="loginForm"
           :rules="rules"
@@ -22,7 +19,9 @@
             <el-input v-model="form.password" />
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" style="width: 100%;" @click="submitForm(loginForm)">登录</el-button>
+            <el-button type="primary" style="width: 100%" @click="submitForm(loginForm)"
+              >登录</el-button
+            >
           </el-form-item>
         </el-form>
       </div>
@@ -35,7 +34,7 @@
 
 <script setup>
 import { reactive, ref } from 'vue'
-import icon from '@/assets/magic.svg'
+import IconLogo from '@/components/icons/IconLogo.vue'
 
 const loginForm = ref()
 
@@ -87,26 +86,6 @@ const submitForm = async (formEl) => {
   flex: 1;
   min-width: 200px;
   padding: 30px 30px 30px 50px;
-}
-
-.icon-wrapper {
-  width: 100%;
-  height: 40px;
-  padding: 0 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  border-radius: 20px;
-}
-
-.icon-wrapper span {
-  font-size: 30px;
-  font-family: cursive, sans-serif;
-  font-weight: bold;
-  color: transparent;
-  background: linear-gradient(-45deg, #e65d4e, #e120d7);
-  background-clip: text;
 }
 
 .img-wrapper {
