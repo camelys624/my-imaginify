@@ -3,7 +3,10 @@
     <div class="login-wrapper">
       <div class="login-form-wrapper">
         <IconLogo />
-        <p style="margin: 20px 0">一些描述</p>
+        <p style="margin: 20px 0">
+          欢迎来到我们的AI图片处理网站！<br/>
+          修复、移除对象、更换背景，一键搞定！
+        </p>
         <el-form
           ref="loginForm"
           :rules="rules"
@@ -19,7 +22,7 @@
             <el-input v-model="form.password" />
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" style="width: 100%" @click="submitForm(loginForm)"
+            <el-button type="primary" style="width: 100%;background: var(--system-bg);" @click="submitForm(loginForm)"
               >登录</el-button
             >
           </el-form-item>
