@@ -1,5 +1,5 @@
 <template>
-  <div>remove bg</div>
+  <div></div>
 </template>
 
 <script>

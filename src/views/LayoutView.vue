@@ -8,10 +8,10 @@
             v-for="(menu, index) in sampleMenuList"
             :key="index"
             :class="checkRoute(menu.name) && 'select'"
-            style="padding: 3px 0;"
+            style="padding: 3px 0"
           >
             <router-link :to="menu.path" class="route-link">
-              <component :is="menu.icon" :color="checkRoute(menu.name) && 'white'"/>
+              <component :is="menu.icon" :color="checkRoute(menu.name) && 'white'" />
               {{ menu.label }}
             </router-link>
           </li>
@@ -19,11 +19,15 @@
         <div class="user-wrapper">
           <div class="imaginify-avatar">
             <div class="avatar-img">
-              <img v-if="userInfo.avatar" src="../assets/avatar.jpg" alt="avatar" />
+              <img v-if="userInfo.avatar" src="" alt="avatar" />
               <div v-else class="avatar-img__holder">杨</div>
             </div>
           </div>
-          <img :src="isLogin ? IconLogout : IconLogin" :alt="isLogin ? 'logout' : 'login'" style="width: 30px;">
+          <img
+            :src="isLogin ? IconLogout : IconLogin"
+            :alt="isLogin ? 'logout' : 'login'"
+            style="width: 30px"
+          />
         </div>
       </el-aside>
       <el-main class="imaginify-main">
@@ -96,6 +100,7 @@ const checkRoute = (routeName) => {
   line-height: 50px;
   text-decoration: none;
   color: var(--color-text);
+  align-items: center;
 }
 
 .imaginify-menu .select .route-link {
