@@ -6,8 +6,8 @@ import IconBgRemove from '@/components/icons/IconBgRemove.vue'
 export const menuList = [
   {
     path: '/',
-    name: 'dashboard',
-    label: 'Dashboard',
+    name: 'home',
+    label: 'Home',
     component: () => import('../views/HomeView.vue'),
     icon: IconHome
   },
