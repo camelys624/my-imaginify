@@ -33,6 +33,7 @@ const generate = () => {
   justify-content: center;
   align-items: center;
   height: 100%;
+  gap: 5px;
 }
 
 .custom-el-form {
