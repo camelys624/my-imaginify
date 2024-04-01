@@ -5,13 +5,13 @@ export const useCounterStore = defineStore('auth', () => {
   const user = ref({})
   const token = ref('')
 
-  function setAuth(user, token) {
-    user.value = user
-    token.value = token
+  function setAuth(newUser, newToken) {
+    user.value = newUser
+    token.value = newToken
 
-    localStorage.setItem('user', JSON.stringify(user))
-    localStorage.setItem('token', token)
+    localStorage.setItem('user', JSON.stringify(newUser))
+    localStorage.setItem('token', newToken)
   }
 
-  return { user, token, setAuth}
+  return { user, token, setAuth }
 })

@@ -11,3 +11,14 @@ export const addUser = (args) => {
     body: JSON.stringify(args)
   })
 }
+
+export const uploadImg = (form) => {
+  return customFetch(
+    'image/formetImage',
+    {
+      method: 'post',
+      body: form
+    },
+    true
+  )
+}

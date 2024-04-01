@@ -2,13 +2,11 @@
   <div class="editor-container">
     <div v-show="hasUploaded" class="preview-box">
       <img id="editorImg" src="@/assets/login.jpg" alt="preview" />
-      <canvas ref="maskCanvas" style="position: absolute;opacity: 0.5;"></canvas>
+      <canvas ref="maskCanvas" style="position: absolute; opacity: 0.5"></canvas>
     </div>
-    <el-upload v-show="!hasUploaded" class="upload-demo" drag multiple>
+    <el-upload v-show="!hasUploaded" :http-request="customUpload" class="upload-demo" drag multiple>
       <el-icon class="el-icon--upload"><upload-filled /></el-icon>
-      <div class="el-upload__text">
-        Drop file here or <em>click to upload</em>
-      </div>
+      <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
     </el-upload>
   </div>
 </template>
@@ -17,6 +15,8 @@
 import { UploadFilled } from '@element-plus/icons-vue'
 import { ref, reactive, onMounted } from 'vue'
 import Drawer from '@/utils/drawLine'
+
+import { uploadImg } from '@/api'
 
 const maskCanvas = ref(null)
 
@@ -44,6 +44,14 @@ onMounted(() => {
     drawer.endDraw()
   })
 })
+
+const customUpload = ({ file }) => {
+  const form = new FormData()
+  form.append('file', file)
+  form.append('filename', file.name)
+
+  uploadImg(form)
+}
 </script>
 
 <style scoped>

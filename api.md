@@ -14,7 +14,8 @@
         "title": "xx",
         "originImg": "upload-imgs/xx.jpg",
         "processedImg": "processed-imgs/xx.jpg", // 可以先不传
-        "createTime": ""
+        "createTime": "",
+        "createUser": ""
       }
     ],
     // 下面的字段是如果做了分页的话需要返回的
@@ -56,7 +57,8 @@
 ```json
 {
   "title": "xxx",
-  "path": "/upload-imgs/xx.jpg"
+  "path": "/upload-imgs/xx.jpg",
+  "type": "restore"
 }
 ```
 
@@ -67,7 +69,7 @@
   "code": 1,
   "msg": "",
   "data": {
-    "path": "/upload-imgs/xx.jpg"
+    "path": "/upload-imgs/restored.jpg"
   }
 }
 ```

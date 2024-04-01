@@ -40,8 +40,10 @@
 
 <script setup>
 import { reactive, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import IconLogo from '@/components/icons/IconLogo.vue'
 import { loginApi } from './api/index'
+import { useCounterStore } from '@/stores/auth'
 
 const loginForm = ref()
 
@@ -54,6 +56,9 @@ const rules = reactive({
   username: [{ required: true, message: '用户名不能为空', trigger: 'blur' }],
   password: [{ required: true, message: '密码不能为空', trigger: 'blur' }]
 })
+const router = useRouter()
+
+const userStore = useCounterStore()
 
 const submitForm = async (formEl) => {
   if (!formEl) return
@@ -61,7 +66,10 @@ const submitForm = async (formEl) => {
   await formEl.validate((valid, fields) => {
     if (valid) {
       loginApi({ ...form }).then((res) => {
-        console.log(res)
+        if (res.code === 1) {
+          userStore.setAuth({ username: 'yang' }, res.data)
+          router.push('/')
+        }
       })
     } else {
       console.log('error submit!', fields)
