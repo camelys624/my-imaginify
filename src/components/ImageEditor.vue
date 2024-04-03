@@ -20,7 +20,7 @@ import { uploadImg } from '@/api'
 
 const maskCanvas = ref(null)
 
-const hasUploaded = reactive(true)
+const hasUploaded = reactive(false)
 
 onMounted(() => {
   const canvas = maskCanvas.value
