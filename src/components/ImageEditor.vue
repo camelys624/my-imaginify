@@ -1,8 +1,16 @@
 <template>
   <div class="editor-container">
     <div v-show="hasUploaded" class="preview-box">
-      <img id="editorImg" src="@/assets/login.jpg" alt="preview" />
-      <canvas ref="maskCanvas" style="position: absolute; opacity: 0.5"></canvas>
+      <div class="image-wrapper">
+        <img id="editorImg" :src="imageUrl" alt="preview" />
+        <canvas v-if="props.showDrawer" ref="maskCanvas" style="position: absolute; opacity: 0.5"></canvas>
+      </div>
+      <div class="editor-tool">
+        <el-slider v-model="brushSize" :min="1" :max="50" />
+        <el-tooltip class="box-item" effect="dark" content="Clear" placement="bottom">
+          <el-button :icon="Delete" circle @click="handleClear" />
+        </el-tooltip>
+      </div>
     </div>
     <el-upload v-show="!hasUploaded" :http-request="customUpload" class="upload-demo" drag multiple>
       <el-icon class="el-icon--upload"><upload-filled /></el-icon>
@@ -12,17 +20,31 @@
 </template>
 
 <script setup>
-import { UploadFilled } from '@element-plus/icons-vue'
-import { ref, reactive, onMounted } from 'vue'
+import { UploadFilled, Delete } from '@element-plus/icons-vue'
+import { ref, onMounted, defineProps, defineEmits } from 'vue'
 import Drawer from '@/utils/drawLine'
 
 import { uploadImg } from '@/api'
 
+const props = defineProps({
+  showDrawer: {
+    type: Boolean,
+    default: false
+  }
+})
+
+const emit = defineEmits(['imgUploaded', 'clear'])
+
+const brushSize = ref(10)
+const imageUrl = ref('')
+
 const maskCanvas = ref(null)
 
-const hasUploaded = reactive(false)
+const hasUploaded = ref(false)
 
 onMounted(() => {
+  if (!props.showDrawer) return
+
   const canvas = maskCanvas.value
   const img = document.getElementById('editorImg')
   img.onload = () => {
@@ -50,7 +72,27 @@ const customUpload = ({ file }) => {
   form.append('file', file)
   form.append('filename', file.name)
 
-  uploadImg(form)
+  uploadImg(form).then((res) => {
+    if (res.code) {
+      imageUrl.value = res.data
+      hasUploaded.value = true
+
+      emit('imgUploaded', res.data)
+    }
+  })
+}
+
+const handleClear = () => {
+  if (props.showDrawer) {
+    const canvas = maskCanvas.value
+    const ctx = canvas.getContext('2d')
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+  }
+
+  hasUploaded.value = false
+  imageUrl.value = ''
+
+  emit('clear')
 }
 </script>
 
@@ -67,8 +109,6 @@ const customUpload = ({ file }) => {
 .preview-box {
   width: 100%;
   height: 100%;
-  display: flex;
-  justify-content: center;
   /* background-color: white; */
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(15 23 42 / 0.04)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
   background-position: top;
@@ -80,5 +120,29 @@ const customUpload = ({ file }) => {
   object-fit: cover;
   pointer-events: none;
   user-select: none;
+}
+
+.image-wrapper {
+  width: 100%;
+  height: calc(100% - 50px);
+  display: flex;
+  justify-content: center;
+}
+
+.editor-tool {
+  height: 40px;
+  width: 300px;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 0 10px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: white;
 }
 </style>

@@ -1,9 +1,21 @@
-<template>
-  <div>restore</div>
-</template>
+<script setup>
+import ImageEditor from '@/components/ImageEditor.vue'
+import { useImageUpload } from '@/composables/imageUpload'
 
-<script>
-export default {}
+const { form, formRef, rules, generate, uploadImageUrl, handleClear } = useImageUpload()
 </script>
 
-<style></style>
+<template>
+  <div class="page-container">
+    <ImageEditor @imgUploaded="uploadImageUrl" @clear="handleClear" />
+    <el-form :model="form" ref="formRef" :rules="rules" label-width="80px" label-position="top" class="custom-el-form">
+      <el-form-item label="Title" prop="title">
+        <el-input v-model="form.title"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" style="width: 100%; background: var(--system-bg); border: none;"
+          @click="generate(formRef)">Generate</el-button>
+      </el-form-item>
+    </el-form>
+  </div>
+</template>

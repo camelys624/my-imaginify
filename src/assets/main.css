@@ -13,3 +13,18 @@
     place-items: center;
   }
 }
+
+.page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  gap: 5px;
+}
+
+.custom-el-form {
+  width: 320px;
+  height: 100%;
+  padding: 10px;
+  background-color: white;
+}
