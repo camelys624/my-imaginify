@@ -2,25 +2,34 @@ import { reactive, ref } from 'vue'
 
 export function useImageUpload() {
   const form = reactive({
-    title: '',
-    path: ''
+    imageName: ''
   })
 
   const formRef = ref()
-  const rules = reactive({
-    title: [{ required: true, message: '名称不能为空', trigger: 'blur' }]
-  })
+  // const rules = reactive({
+  //   title: [{ required: true, message: '名称不能为空', trigger: 'blur' }]
+  // })
+  const editorRef = ref()
 
-  const generate = async (formEl) => {
-    if (!formEl) return
+  const generate = async (formEl, cb) => {
+    if (!form.imageName) return
 
-    await formEl.validate((valid, fields) => {
-      if (valid && form.path) {
-        console.log('Generate')
-      } else {
-        console.log('error submit!', fields)
+    cb(form).then((res) => {
+      console.log(res)
+      if (res.code) {
+        editorRef.value.uploadImageUrl(res.data)
       }
     })
+
+    // await formEl.validate((valid, fields) => {
+    //   if (valid && form.path) {
+    //     cb(form).then((res) => {
+    //       console.log(res)
+    //     })
+    //   } else {
+    //     console.log('error submit!', fields)
+    //   }
+    // })
   }
 
   const uploadImageUrl = (url) => {
@@ -33,7 +42,8 @@ export function useImageUpload() {
 
   return {
     form,
-    rules,
+    editorRef,
+    // rules,
     formRef,
     generate,
     uploadImageUrl,

@@ -3,7 +3,11 @@
     <div v-show="hasUploaded" class="preview-box">
       <div class="image-wrapper">
         <img id="editorImg" :src="imageUrl" alt="preview" />
-        <canvas v-if="props.showDrawer" ref="maskCanvas" style="position: absolute; opacity: 0.5"></canvas>
+        <canvas
+          v-if="props.showDrawer"
+          ref="maskCanvas"
+          style="position: absolute; opacity: 0.5"
+        ></canvas>
       </div>
       <div class="editor-tool">
         <el-slider v-model="brushSize" :min="1" :max="50" />
@@ -93,6 +97,11 @@ const handleClear = () => {
   imageUrl.value = ''
 
   emit('clear')
+}
+
+// eslint-disable-next-line no-unused-vars
+const uploadImageUrl = (url) => {
+  imageUrl.value = url
 }
 </script>
 

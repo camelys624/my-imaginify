@@ -1,28 +1,30 @@
 <script setup>
 import ImageEditor from '@/components/ImageEditor.vue'
-import { reactive, ref } from 'vue'
-
-const form = reactive({
-  title: ''
-})
-
-const formRef = ref()
-
-const generate = () => {
-  console.log('Generate')
-}
+import { useImageUpload } from '@/composables/imageUpload'
+const { form, formRef, editorRef, generate, uploadImageUrl, handleClear } = useImageUpload()
 </script>
 
 <template>
   <div class="page-container">
-    <ImageEditor />
-    <el-form :model="form" ref="formRef" label-width="80px" label-position="top" class="custom-el-form">
-      <el-form-item label="Title">
+    <ImageEditor ref="editorRef" @imgUploaded="uploadImageUrl" @clear="handleClear" />
+    <el-form
+      :model="form"
+      ref="formRef"
+      :rules="rules"
+      label-width="80px"
+      label-position="top"
+      class="custom-el-form"
+    >
+      <el-form-item label="Title" prop="title">
         <el-input v-model="form.title"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" style="width: 100%; background: var(--system-bg); border: none;"
-          @click="generate">Generate</el-button>
+        <el-button
+          type="primary"
+          style="width: 100%; background: var(--system-bg); border: none"
+          @click="generate(formRef)"
+          >Generate</el-button
+        >
       </el-form-item>
     </el-form>
   </div>
