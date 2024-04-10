@@ -5,8 +5,10 @@
     height: `${positionProps.height}px`,
     width: `${width}px`
   }">
-    <div class="image-wrapper" :style="{width: `${positionProps.maxWidth}px`}">
-      <img :src="props.imageUrl" alt="">
+    <div style="height: 100%; width: 100%; overflow: hidden;">
+      <div class="image-wrapper" :style="{ width: `${positionProps.maxWidth}px` }">
+        <img :src="props.imageUrl" alt="">
+      </div>
     </div>
     <div class="handler">
       ◀ ▶

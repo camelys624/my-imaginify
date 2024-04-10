@@ -13,6 +13,7 @@ export function useImageUpload() {
   const editorRef = ref(null)
 
   const generate = async (cb) => {
+    console.log(form.imageName)
     if (!form.imageName) return
 
     const loading = ElLoading.service({

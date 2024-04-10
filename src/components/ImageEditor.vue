@@ -2,7 +2,7 @@
   <div class="editor-container">
     <div v-show="hasUploaded" class="preview-box">
       <div class="image-wrapper">
-        <img id="editorImg" src="@/assets/login.jpg" alt="preview" />
+        <img id="editorImg" :src="imageUrl" alt="preview" />
         <canvas v-if="props.showDrawer" ref="maskCanvas" style="position: absolute; opacity: 0.5"></canvas>
       </div>
       <div class="editor-tool">
@@ -21,7 +21,7 @@
       <el-icon class="el-icon--upload"><upload-filled /></el-icon>
       <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
     </el-upload>
-    <image-comparison v-show="comparisonVisible" :position-props="comparisonProps"/>
+    <image-comparison v-show="comparisonVisible" :position-props="comparisonProps" :image-url="comparisonImg"/>
   </div>
 </template>
 
@@ -43,7 +43,7 @@ const props = defineProps({
     default: false
   }
 })
-const emit = defineEmits(['clear', 'generate'])
+const emit = defineEmits(['imgUploaded', 'clear', 'generate'])
 
 const brushSize = ref(10)
 const imageUrl = ref('')
@@ -94,6 +94,7 @@ const customUpload = ({ file }) => {
     if (res.code) {
       imageUrl.value = FORMET_URL + res.data
       hasUploaded.value = true
+      emit('imgUploaded', res.data)
     }
   })
 }
