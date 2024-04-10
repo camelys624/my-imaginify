@@ -27,9 +27,10 @@
 import { UploadFilled, Delete } from '@element-plus/icons-vue'
 import { ref, onMounted, defineProps, defineEmits } from 'vue'
 import Drawer from '@/utils/drawLine'
-
+import { defineExpose } from 'vue'; 
 import { uploadImg } from '@/api'
-
+const FORMET_URL='http://sb9lsai7u.hn-bkt.clouddn.com/';
+const UPDATE_URL='http://sb9lj8m6v.hn-bkt.clouddn.com/';
 const props = defineProps({
   showDrawer: {
     type: Boolean,
@@ -78,7 +79,7 @@ const customUpload = ({ file }) => {
 
   uploadImg(form).then((res) => {
     if (res.code) {
-      imageUrl.value = res.data
+      imageUrl.value =FORMET_URL + res.data
       hasUploaded.value = true
 
       emit('imgUploaded', res.data)
@@ -101,8 +102,10 @@ const handleClear = () => {
 
 // eslint-disable-next-line no-unused-vars
 const uploadImageUrl = (url) => {
-  imageUrl.value = url
+  console.log(url)
+  imageUrl.value =UPDATE_URL + url
 }
+defineExpose({uploadImageUrl})
 </script>
 
 <style scoped>

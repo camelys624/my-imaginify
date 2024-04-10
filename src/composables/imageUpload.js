@@ -9,7 +9,7 @@ export function useImageUpload() {
   // const rules = reactive({
   //   title: [{ required: true, message: '名称不能为空', trigger: 'blur' }]
   // })
-  const editorRef = ref()
+  const editorRef = ref(null)
 
   const generate = async (formEl, cb) => {
     if (!form.imageName) return
@@ -33,11 +33,11 @@ export function useImageUpload() {
   }
 
   const uploadImageUrl = (url) => {
-    form.path = url
+    form.imageName = url
   }
 
   const handleClear = () => {
-    form.path = ''
+    form.imageName = ''
   }
 
   return {
