@@ -3,13 +3,13 @@ import ImageEditor from '@/components/ImageEditor.vue'
 import { useImageUpload } from '@/composables/imageUpload'
 import { restoreImg } from '@/api'
 
-const { form, formRef, editorRef, generate, uploadImageUrl, handleClear } = useImageUpload()
+const { editorRef, generate, uploadImageUrl, handleClear } = useImageUpload()
 </script>
 
 <template>
   <div class="page-container">
-    <ImageEditor ref="editorRef" @imgUploaded="uploadImageUrl" @clear="handleClear" />
-    <el-form
+    <ImageEditor ref="editorRef" @imgUploaded="uploadImageUrl" @clear="handleClear" @generate="generate(restoreImg)" />
+    <!-- <el-form
       :model="form"
       ref="formRef"
       label-width="80px"
@@ -27,6 +27,6 @@ const { form, formRef, editorRef, generate, uploadImageUrl, handleClear } = useI
           >Generate</el-button
         >
       </el-form-item>
-    </el-form>
+    </el-form> -->
   </div>
 </template>

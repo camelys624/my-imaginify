@@ -1,4 +1,5 @@
 import { reactive, ref } from 'vue'
+import { ElLoading } from 'element-plus'
 
 export function useImageUpload() {
   const form = reactive({
@@ -11,14 +12,21 @@ export function useImageUpload() {
   // })
   const editorRef = ref(null)
 
-  const generate = async (formEl, cb) => {
+  const generate = async (cb) => {
     if (!form.imageName) return
+
+    const loading = ElLoading.service({
+      lock: true,
+      text: '处理中',
+      background: 'rgba(0, 0, 0, 0.7)'
+    })
 
     cb(form).then((res) => {
       console.log(res)
       if (res.code) {
-        editorRef.value.uploadImageUrl(res.data)
+        editorRef.value.updateImageUrl(res.data)
       }
+      loading.close()
     })
 
     // await formEl.validate((valid, fields) => {

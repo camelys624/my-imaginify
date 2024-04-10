@@ -2,16 +2,17 @@
   <div class="editor-container">
     <div v-show="hasUploaded" class="preview-box">
       <div class="image-wrapper">
-        <img id="editorImg" :src="imageUrl" alt="preview" />
-        <canvas
-          v-if="props.showDrawer"
-          ref="maskCanvas"
-          style="position: absolute; opacity: 0.5"
-        ></canvas>
+        <img id="editorImg" src="@/assets/login.jpg" alt="preview" />
+        <canvas v-if="props.showDrawer" ref="maskCanvas" style="position: absolute; opacity: 0.5"></canvas>
       </div>
       <div class="editor-tool">
-        <el-slider v-model="brushSize" :min="1" :max="50" />
-        <el-tooltip class="box-item" effect="dark" content="Clear" placement="bottom">
+        <el-slider v-model="brushSize" :min="1" :max="50" style="margin-right: 12px;" />
+        <el-button type="primary" style="background: var(--system-bg); border: none;border-radius: 16px;"
+          @click="generate">处理图像</el-button>
+        <el-tooltip class="box-item" effect="dark" content="对比" placement="top">
+          <el-button :icon="IconComparison" :disabled="!hasGenerated" circle @click="handleComparison" />
+        </el-tooltip>
+        <el-tooltip class="box-item" effect="dark" content="清除" placement="top">
           <el-button :icon="Delete" circle @click="handleClear" />
         </el-tooltip>
       </div>
@@ -20,32 +21,44 @@
       <el-icon class="el-icon--upload"><upload-filled /></el-icon>
       <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
     </el-upload>
+    <image-comparison v-show="comparisonVisible" :position-props="comparisonProps"/>
   </div>
 </template>
 
 <script setup>
 import { UploadFilled, Delete } from '@element-plus/icons-vue'
-import { ref, onMounted, defineProps, defineEmits } from 'vue'
+import IconComparison from '@/components/icons/IconComparison.vue'
+import ImageComparison from '@/components/ImageComparison.vue'
+import { ref, reactive, onMounted, defineProps, defineEmits } from 'vue'
 import Drawer from '@/utils/drawLine'
-import { defineExpose } from 'vue'; 
+import { defineExpose } from 'vue';
 import { uploadImg } from '@/api'
-const FORMET_URL='http://sb9lsai7u.hn-bkt.clouddn.com/';
-const UPDATE_URL='http://sb9lj8m6v.hn-bkt.clouddn.com/';
+
+const FORMET_URL = 'http://sb9lsai7u.hn-bkt.clouddn.com/';
+const UPDATE_URL = 'http://sb9lj8m6v.hn-bkt.clouddn.com/';
+
 const props = defineProps({
   showDrawer: {
     type: Boolean,
     default: false
   }
 })
-
-const emit = defineEmits(['imgUploaded', 'clear'])
+const emit = defineEmits(['clear', 'generate'])
 
 const brushSize = ref(10)
 const imageUrl = ref('')
-
 const maskCanvas = ref(null)
-
 const hasUploaded = ref(false)
+const hasGenerated = ref(false)
+const comparisonVisible = ref(false)
+const comparisonProps = reactive({
+  left: 0,
+  top: 0,
+  height: 0,
+  width: 0,
+  maxWidth: 0
+})
+const comparisonImg = ref('')
 
 onMounted(() => {
   if (!props.showDrawer) return
@@ -79,10 +92,8 @@ const customUpload = ({ file }) => {
 
   uploadImg(form).then((res) => {
     if (res.code) {
-      imageUrl.value =FORMET_URL + res.data
+      imageUrl.value = FORMET_URL + res.data
       hasUploaded.value = true
-
-      emit('imgUploaded', res.data)
     }
   })
 }
@@ -95,17 +106,37 @@ const handleClear = () => {
   }
 
   hasUploaded.value = false
+  hasGenerated.value = false
   imageUrl.value = ''
 
   emit('clear')
 }
 
-// eslint-disable-next-line no-unused-vars
-const uploadImageUrl = (url) => {
-  console.log(url)
-  imageUrl.value =UPDATE_URL + url
+const handleComparison = () => {
+  const img = document.getElementById('editorImg')
+  const { left, top, width, height } = img.getBoundingClientRect()
+
+  comparisonProps.left = left
+  comparisonProps.top = top
+  comparisonProps.width = width / 2
+  comparisonProps.height = height
+  comparisonProps.maxWidth = width
+
+  comparisonVisible.value = !comparisonVisible.value
 }
-defineExpose({uploadImageUrl})
+
+const generate = () => {
+  emit('generate', imageUrl.value)
+}
+
+const updateImageUrl = (url) => {
+  comparisonImg.value = imageUrl.value
+  imageUrl.value = UPDATE_URL + url
+  
+  hasGenerated.value = true
+}
+
+defineExpose({ updateImageUrl })
 </script>
 
 <style scoped>
@@ -121,9 +152,6 @@ defineExpose({uploadImageUrl})
 .preview-box {
   width: 100%;
   height: 100%;
-  /* background-color: white; */
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(15 23 42 / 0.04)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
-  background-position: top;
 }
 
 .preview-box img {
@@ -143,7 +171,7 @@ defineExpose({uploadImageUrl})
 
 .editor-tool {
   height: 40px;
-  width: 300px;
+  width: 400px;
   position: absolute;
   bottom: 10px;
   left: 50%;

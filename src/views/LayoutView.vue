@@ -1,8 +1,8 @@
 <template>
   <div class="common-layout">
-    <el-container>
-      <el-aside width="260px" class="imaginify-aside">
-        <IconLogo />
+    <el-container style="height: 100vh;">
+      <el-header class="imaginify-aside">
+        <IconLogo style="width: auto;" />
         <ul class="imaginify-menu">
           <li
             v-for="(menu, index) in sampleMenuList"
@@ -23,13 +23,8 @@
               <div v-else class="avatar-img__holder">杨</div>
             </div>
           </div>
-          <img
-            :src="isLogin ? IconLogout : IconLogin"
-            :alt="isLogin ? 'logout' : 'login'"
-            style="width: 30px"
-          />
         </div>
-      </el-aside>
+      </el-header>
       <el-main class="imaginify-main">
         <RouterView />
       </el-main>
@@ -42,8 +37,6 @@ import { menuList } from '@/router/menu.js'
 import { RouterView, useRoute, RouterLink } from 'vue-router'
 import { computed } from 'vue'
 import IconLogo from '@/components/icons/IconLogo.vue'
-import IconLogin from '@/assets/icons/login.svg'
-import IconLogout from '@/assets/icons/logout.svg'
 
 import { useCounterStore } from '@/stores/auth.js'
 
@@ -53,8 +46,6 @@ const userInfo = authStore.user
 const sampleMenuList = computed(() =>
   menuList.map(({ label, name, path, icon }) => ({ label, name, path, icon }))
 )
-
-const isLogin = computed(() => !!userInfo.value)
 
 const currentRouteInfo = useRoute()
 const checkRoute = (routeName) => {
@@ -67,15 +58,18 @@ const checkRoute = (routeName) => {
 <style scoped>
 .imaginify-aside,
 .imaginify-main {
-  height: 100vh;
-  overflow-y: auto;
+  width: 100vw;
   padding: 10px;
+}
+
+.imaginify-main {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(15 23 42 / 0.04)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
+  background-position: top;
 }
 
 .imaginify-aside {
   display: flex;
-  flex-direction: column;
-  gap: 20px;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -87,8 +81,9 @@ const checkRoute = (routeName) => {
   list-style: none;
   margin: 0;
   padding: 0;
-  flex: 1;
-  width: 100%;
+  /* flex: 1; */
+  display: flex;
+  gap: 10px;
 }
 
 .imaginify-menu .route-link {
@@ -101,6 +96,7 @@ const checkRoute = (routeName) => {
   text-decoration: none;
   color: var(--color-text);
   align-items: center;
+  width: 130px;
 }
 
 .imaginify-menu .select .route-link {
@@ -113,7 +109,6 @@ const checkRoute = (routeName) => {
 }
 
 .user-wrapper {
-  height: 120px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -122,8 +117,8 @@ const checkRoute = (routeName) => {
 }
 
 .imaginify-avatar {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -132,8 +127,8 @@ const checkRoute = (routeName) => {
 }
 
 .imaginify-avatar .avatar-img {
-  width: 56px;
-  height: 56px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
   overflow: hidden;
 }
@@ -147,9 +142,9 @@ const checkRoute = (routeName) => {
 .avatar-img .avatar-img__holder {
   width: 100%;
   height: 100%;
-  line-height: 56px;
+  line-height: 46px;
   text-align: center;
-  font-size: 30px;
+  font-size: 25px;
   color: white;
   background-color: gray;
 }
