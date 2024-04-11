@@ -29,3 +29,9 @@ export const restoreImg = (args) => {
     body: JSON.stringify(args)
   })
 }
+export const bgRmove = (args) => {
+  return customFetch('image/backgroundImage', {
+    method: 'post',
+    body: JSON.stringify(args)
+  })
+}

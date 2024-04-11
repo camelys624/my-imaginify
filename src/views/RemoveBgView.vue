@@ -1,14 +1,14 @@
 <script setup>
 import ImageEditor from '@/components/ImageEditor.vue'
 import { useImageUpload } from '@/composables/imageUpload'
-import { restoreImg } from '@/api'
+import { bgRmove } from '@/api'
 
 const { editorRef, generate, uploadImageUrl, handleClear } = useImageUpload()
 </script>
 
 <template>
   <div class="page-container">
-    <ImageEditor ref="editorRef" @imgUploaded="uploadImageUrl" @clear="handleClear" @generate="generate(restoreImg)" />
+    <ImageEditor ref="editorRef" @imgUploaded="uploadImageUrl" @clear="handleClear" @generate="generate(bgRmove)" />
     <!-- <el-form
       :model="form"
       ref="formRef"
