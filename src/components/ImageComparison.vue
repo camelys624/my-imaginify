@@ -1,18 +1,19 @@
 <template>
-  <div class="image-comparison-container" :style="{
-    left: `${positionProps.left}px`,
-    top: `${positionProps.top}px`,
-    height: `${positionProps.height}px`,
-    width: `${width}px`
-  }">
-    <div style="height: 100%; width: 100%; overflow: hidden;">
+  <div
+    class="image-comparison-container"
+    :style="{
+      left: `${positionProps.left}px`,
+      top: `${positionProps.top}px`,
+      height: `${positionProps.height}px`,
+      width: `${width}px`
+    }"
+  >
+    <div style="height: 100%; width: 100%; overflow: hidden">
       <div class="image-wrapper" :style="{ width: `${positionProps.maxWidth}px` }">
-        <img :src="props.imageUrl" alt="">
+        <img :src="props.imageUrl" alt="" />
       </div>
     </div>
-    <div class="handler">
-      ◀ ▶
-    </div>
+    <div class="handler">◀ ▶</div>
   </div>
 </template>
 
@@ -52,7 +53,7 @@ const moveHandler = (e) => {
   }
 }
 
-const handlerOperate = e => {
+const handlerOperate = (e) => {
   e.preventDefault()
   window.addEventListener('mousemove', moveHandler)
   window.addEventListener('mouseup', () => {
@@ -68,6 +69,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   const handler = document.querySelector('.handler')
+  if (!handler) return
 
   handler.removeEventListener('mousedown', handlerOperate)
 })
@@ -87,7 +89,6 @@ onUnmounted(() => {
   height: 100%;
   width: 2px;
   background: white;
-
 }
 
 .image-wrapper {

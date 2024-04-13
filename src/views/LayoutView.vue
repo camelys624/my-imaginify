@@ -1,8 +1,8 @@
 <template>
   <div class="common-layout">
-    <el-container style="height: 100vh;">
+    <el-container style="height: 100vh">
       <el-header class="imaginify-aside">
-        <IconLogo style="width: auto;" />
+        <IconLogo style="width: auto" />
         <ul class="imaginify-menu">
           <li
             v-for="(menu, index) in sampleMenuList"
@@ -59,12 +59,16 @@ const checkRoute = (routeName) => {
 .imaginify-aside,
 .imaginify-main {
   width: 100vw;
+}
+
+.imaginify-aside {
   padding: 10px;
 }
 
 .imaginify-main {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(15 23 42 / 0.04)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
   background-position: top;
+  padding: 0;
 }
 
 .imaginify-aside {
