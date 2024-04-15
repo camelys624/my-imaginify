@@ -100,3 +100,33 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  scrollbar-width: thin; /* "auto" 或 "thin" */
+}
+/* 滚动条轨道 */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+/* 滚动条手柄 */
+::-webkit-scrollbar-thumb {
+  background: var(--system-bg);
+  border-radius: 8px;
+}
+
+.el-upload-dragger {
+  background: var(--system-bg);
+  width: 500px;
+  box-shadow: 0 0 10px var(--color-border);
+}
+
+.el-upload-dragger .el-icon--upload,
+.el-upload-dragger .el-upload__text {
+  color: var(--color-background-soft);
+}
+
+.el-upload-dragger .el-upload__text em {
+  color: #00c2fb;
+}

@@ -13,7 +13,20 @@ const goto = (path) => {
     <section class="hero">
       <div class="section-wrapper">
         <div class="text-area">
-          <h1>使用我们的 AI 照片编辑器使复杂的编辑变得简单</h1>
+          <h1>
+            使用我们的<span style="background-color: white; border-radius: 6px; margin: 0 3px"
+              ><span
+                style="
+                  background: var(--system-bg);
+                  background-clip: text;
+                  color: transparent;
+                  font-weight: bold;
+                "
+              >
+                AI 照片编辑器
+              </span></span
+            >使复杂的编辑变得简单
+          </h1>
           <div style="margin-bottom: 40px">
             <p>
               控制图像的外观和感觉。
