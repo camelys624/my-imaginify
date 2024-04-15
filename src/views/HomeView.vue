@@ -131,7 +131,7 @@ const goto = (path) => {
 .hero {
   height: 800px;
   width: 100%;
-  background-image: url('../../public/hero-bg.png'),
+  background-image: url('/hero-bg.png'),
     linear-gradient(
       to bottom,
       rgb(103 128 234 / 80%),
