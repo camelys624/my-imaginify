@@ -2,15 +2,36 @@
   <div class="editor-container">
     <div v-show="hasUploaded" class="preview-box">
       <div class="image-wrapper">
-        <img id="editorImg" :src="imageUrl" alt="preview" />
-        <canvas v-if="props.showDrawer" ref="maskCanvas" style="position: absolute; opacity: 0.5"></canvas>
+        <img id="editorImg" src="@/assets/login.jpg" alt="preview" />
+        <canvas
+          v-if="props.showDrawer"
+          ref="maskCanvas"
+          style="position: absolute; opacity: 0.5; cursor: none"
+        ></canvas>
+        <div v-if="props.showDrawer" ref="customCursor" class="cursor-proxy"></div>
       </div>
       <div class="editor-tool">
-        <el-slider v-model="brushSize" :min="1" :max="50" style="margin-right: 12px;" />
-        <el-button type="primary" style="background: var(--system-bg); border: none;border-radius: 16px;"
-          @click="generate">处理图像</el-button>
+        <el-slider
+          v-if="props.showDrawer"
+          v-model="brushSize"
+          :min="1"
+          :max="50"
+          style="margin-right: 12px"
+          @change="handleBrushSizeChange"
+        />
+        <el-button
+          type="primary"
+          style="background: var(--system-bg); border: none; border-radius: 16px"
+          @click="generate"
+          >处理图像</el-button
+        >
         <el-tooltip class="box-item" effect="dark" content="对比" placement="top">
-          <el-button :icon="IconComparison" :disabled="!hasGenerated" circle @click="handleComparison" />
+          <el-button
+            :icon="IconComparison"
+            :disabled="!hasGenerated"
+            circle
+            @click="handleComparison"
+          />
         </el-tooltip>
         <el-tooltip class="box-item" effect="dark" content="清除" placement="top">
           <el-button :icon="Delete" circle @click="handleClear" />
@@ -21,7 +42,11 @@
       <el-icon class="el-icon--upload"><upload-filled /></el-icon>
       <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
     </el-upload>
-    <image-comparison v-show="comparisonVisible" :position-props="comparisonProps" :image-url="comparisonImg"/>
+    <image-comparison
+      v-show="comparisonVisible"
+      :position-props="comparisonProps"
+      :image-url="comparisonImg"
+    />
   </div>
 </template>
 
@@ -29,13 +54,13 @@
 import { UploadFilled, Delete } from '@element-plus/icons-vue'
 import IconComparison from '@/components/icons/IconComparison.vue'
 import ImageComparison from '@/components/ImageComparison.vue'
-import { ref, reactive, onMounted, defineProps, defineEmits } from 'vue'
+import { ref, reactive, defineProps, onMounted, defineEmits } from 'vue'
 import Drawer from '@/utils/drawLine'
-import { defineExpose } from 'vue';
+import { defineExpose } from 'vue'
 import { uploadImg } from '@/api'
 
-const FORMET_URL = 'http://sb9lsai7u.hn-bkt.clouddn.com/';
-const UPDATE_URL = 'http://sb9lj8m6v.hn-bkt.clouddn.com/';
+const FORMET_URL = 'http://sb9lsai7u.hn-bkt.clouddn.com/'
+const UPDATE_URL = 'http://sb9lj8m6v.hn-bkt.clouddn.com/'
 
 const props = defineProps({
   showDrawer: {
@@ -48,6 +73,7 @@ const emit = defineEmits(['imgUploaded', 'clear', 'generate'])
 const brushSize = ref(10)
 const imageUrl = ref('')
 const maskCanvas = ref(null)
+const customCursor = ref(null)
 const hasUploaded = ref(false)
 const hasGenerated = ref(false)
 const comparisonVisible = ref(false)
@@ -59,31 +85,38 @@ const comparisonProps = reactive({
   maxWidth: 0
 })
 const comparisonImg = ref('')
+let drawer = undefined
 
-onMounted(() => {
-  if (!props.showDrawer) return
+const initMaskCanvas = () => {
+  if (!props.showDrawer || drawer) return
 
   const canvas = maskCanvas.value
   const img = document.getElementById('editorImg')
   img.onload = () => {
     canvas.width = img.width
     canvas.height = img.height
-  }
 
-  const drawer = new Drawer(canvas.getContext('2d'))
+    drawer = new Drawer(canvas.getContext('2d'), img.width, img.height)
+  }
 
   canvas.addEventListener('mousedown', (e) => {
     drawer.beginDraw(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop)
   })
 
   canvas.addEventListener('mousemove', (e) => {
-    drawer.drawing(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop)
+    const x = e.clientX - canvas.offsetLeft
+    const y = e.clientY - canvas.offsetTop
+    customCursor.value.style.left = e.clientX + 'px'
+    customCursor.value.style.top = e.clientY + 'px'
+    drawer.drawing(x, y)
   })
 
   canvas.addEventListener('mouseup', () => {
     drawer.endDraw()
   })
-})
+}
+
+onMounted(initMaskCanvas)
 
 const customUpload = ({ file }) => {
   const form = new FormData()
@@ -94,16 +127,24 @@ const customUpload = ({ file }) => {
     if (res.code) {
       imageUrl.value = FORMET_URL + res.data
       hasUploaded.value = true
+
+      initMaskCanvas()
       emit('imgUploaded', res.data)
     }
   })
 }
 
+const handleBrushSizeChange = (value) => {
+  if (!drawer) return
+
+  customCursor.value.style.width = value + 'px'
+  customCursor.value.style.height = value + 'px'
+  drawer.setBrushSize(value)
+}
+
 const handleClear = () => {
   if (props.showDrawer) {
-    const canvas = maskCanvas.value
-    const ctx = canvas.getContext('2d')
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    drawer.clear()
   }
 
   hasUploaded.value = false
@@ -127,13 +168,24 @@ const handleComparison = () => {
 }
 
 const generate = () => {
-  emit('generate', imageUrl.value)
+  if (props.showDrawer) {
+    const { status, message, img } = drawer.exportImage()
+    if (!status) {
+      console.log(message)
+    } else {
+      emit('generate', img)
+    }
+
+    return
+  }
+
+  emit('generate')
 }
 
 const updateImageUrl = (url) => {
   comparisonImg.value = imageUrl.value
   imageUrl.value = UPDATE_URL + url
-  
+
   hasGenerated.value = true
 }
 
@@ -185,5 +237,15 @@ defineExpose({ updateImageUrl })
   border-radius: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background-color: white;
+}
+
+.cursor-proxy {
+  position: absolute;
+  border: 2px solid black;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
 }
 </style>

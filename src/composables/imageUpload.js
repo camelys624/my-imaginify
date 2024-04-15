@@ -12,8 +12,7 @@ export function useImageUpload() {
   // })
   const editorRef = ref(null)
 
-  const generate = async (cb) => {
-    console.log(form.imageName)
+  const generate = async (cb, maskImg) => {
     if (!form.imageName) return
 
     const loading = ElLoading.service({
@@ -22,7 +21,7 @@ export function useImageUpload() {
       background: 'rgba(0, 0, 0, 0.7)'
     })
 
-    cb(form).then((res) => {
+    cb({ ...form, maskImg }).then((res) => {
       console.log(res)
       if (res.code) {
         editorRef.value.updateImageUrl(res.data)

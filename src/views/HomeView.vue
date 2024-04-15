@@ -133,7 +133,7 @@ const goto = (path) => {
 .section-wrapper {
   display: flex;
   gap: 10px;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(15px);
   height: 100%;
   padding: 160px calc((100% - 1200px) / 2);
 }
