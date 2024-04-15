@@ -173,6 +173,7 @@ const generate = () => {
     if (!status) {
       console.log(message)
     } else {
+      drawer.clear()
       emit('generate', img)
     }
 

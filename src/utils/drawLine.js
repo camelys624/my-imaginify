@@ -13,6 +13,7 @@ export default class Drawer {
   }
 
   beginDraw(x, y) {
+    this.clear()
     this.#isDrawing = true
     this.context.lineCap = 'round' // 线条端点为圆滑
     this.context.lineJoin = 'round' // 线条连接处为圆滑
