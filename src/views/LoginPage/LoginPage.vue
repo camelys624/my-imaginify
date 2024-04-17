@@ -24,7 +24,7 @@
           <el-form-item>
             <el-button
               type="primary"
-              style="width: 100%; background: var(--system-bg);border: none;"
+              style="width: 100%; background: var(--system-bg); border: none"
               @click="submitForm(loginForm)"
               >登录</el-button
             >
@@ -44,6 +44,8 @@ import { useRouter } from 'vue-router'
 import IconLogo from '@/components/icons/IconLogo.vue'
 import { loginApi } from './api/index'
 import { useCounterStore } from '@/stores/auth'
+
+localStorage.removeItem('token')
 
 const loginForm = ref()
 

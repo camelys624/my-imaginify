@@ -42,6 +42,7 @@
   --black: #161b22;
   --brown: #af4219;
   --system-bg: linear-gradient(-45deg, #e65d4e, #e120d7);
+  --hover-bg: linear-gradient(-45deg, #e65d4e6b, #e120d756);
 
   --section-gap: 160px;
 
@@ -114,19 +115,4 @@ body {
 ::-webkit-scrollbar-thumb {
   background: var(--system-bg);
   border-radius: 8px;
-}
-
-.el-upload-dragger {
-  background: var(--system-bg);
-  width: 500px;
-  box-shadow: 0 0 10px var(--color-border);
-}
-
-.el-upload-dragger .el-icon--upload,
-.el-upload-dragger .el-upload__text {
-  color: var(--color-background-soft);
-}
-
-.el-upload-dragger .el-upload__text em {
-  color: #00c2fb;
 }

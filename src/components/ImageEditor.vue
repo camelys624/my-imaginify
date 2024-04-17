@@ -150,6 +150,7 @@ const handleClear = () => {
   hasUploaded.value = false
   hasGenerated.value = false
   imageUrl.value = ''
+  comparisonVisible.value = false
 
   emit('clear')
 }

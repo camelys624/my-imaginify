@@ -17,12 +17,28 @@
           </li>
         </ul>
         <div class="user-wrapper">
-          <div class="imaginify-avatar">
-            <div class="avatar-img">
-              <img v-if="userInfo.avatar" src="" alt="avatar" />
-              <div v-else class="avatar-img__holder">杨</div>
-            </div>
-          </div>
+          <el-popover
+            :width="300"
+            trigger="click"
+            popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px;width: unset; padding: 0"
+          >
+            <template #reference>
+              <div class="imaginify-avatar">
+                <div class="avatar-img">
+                  <img v-if="userInfo.avatar" src="" alt="avatar" />
+                  <div v-else class="avatar-img__holder">杨</div>
+                </div>
+              </div>
+            </template>
+            <template #default>
+              <div class="action-item" @click="handleLogout">
+                <div class="image-wrapper">
+                  <img :src="Logout" alt="logout" />
+                </div>
+                <span>登出</span>
+              </div>
+            </template>
+          </el-popover>
         </div>
       </el-header>
       <el-main class="imaginify-main">
@@ -37,6 +53,7 @@ import { menuList } from '@/router/menu.js'
 import { RouterView, useRoute, RouterLink } from 'vue-router'
 import { computed } from 'vue'
 import IconLogo from '@/components/icons/IconLogo.vue'
+import Logout from '@/assets/icons/logout.svg'
 
 import { useCounterStore } from '@/stores/auth.js'
 
@@ -52,6 +69,12 @@ const checkRoute = (routeName) => {
   const name = currentRouteInfo.name
 
   return routeName === name
+}
+
+const handleLogout = () => {
+  localStorage.removeItem('token')
+  localStorage.removeItem('user')
+  window.open('/login', '_self')
 }
 </script>
 
@@ -109,7 +132,7 @@ const checkRoute = (routeName) => {
 }
 
 .imaginify-menu .route-link:hover {
-  background: linear-gradient(-45deg, #e65d4e6b, #e120d756);
+  background: var(--hover-bg);
 }
 
 .user-wrapper {
@@ -128,6 +151,7 @@ const checkRoute = (routeName) => {
   align-items: center;
   border-radius: 50%;
   background: var(--system-bg);
+  cursor: pointer;
 }
 
 .imaginify-avatar .avatar-img {
@@ -135,12 +159,6 @@ const checkRoute = (routeName) => {
   height: 46px;
   border-radius: 50%;
   overflow: hidden;
-}
-
-.avatar-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
 .avatar-img .avatar-img__holder {
@@ -151,5 +169,24 @@ const checkRoute = (routeName) => {
   font-size: 25px;
   color: white;
   background-color: gray;
+}
+
+.action-item {
+  display: flex;
+  margin: 5px;
+  padding: 5px 10px;
+  gap: 20px;
+  align-items: center;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.action-item:hover {
+  background: var(--hover-bg);
+}
+
+.action-item .image-wrapper {
+  height: 30px;
+  width: 30px;
 }
 </style>
