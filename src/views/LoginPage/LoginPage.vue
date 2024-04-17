@@ -67,7 +67,7 @@ const submitForm = async (formEl) => {
     if (valid) {
       loginApi({ ...form }).then((res) => {
         if (res.code === 1) {
-          userStore.setAuth({ username: 'yang' }, res.data)
+          userStore.setAuth({ username: 'yang' }, res.data.token)
           router.push('/')
         }
       })
