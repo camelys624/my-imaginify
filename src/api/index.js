@@ -34,4 +34,12 @@ export const bgRmove = (args) => {
     method: 'post',
     body: JSON.stringify(args)
   })
+
+}
+
+export const objRmove = (args) => {
+  return customFetch('image/ObjectRemoveImage', {
+    method: 'post',
+    body: JSON.stringify(args)
+  })
 }

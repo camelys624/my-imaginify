@@ -8,7 +8,7 @@ function objectToQueryString(obj) {
 }
 
 export const loginApi = (args) => {
-  return customFetch(`admin/login`, {
+  return customFetch(`login`, {
     method: 'post',
     body: JSON.stringify(args)
   })

@@ -1,7 +1,7 @@
 <script setup>
 import ImageEditor from '@/components/ImageEditor.vue'
 import { useImageUpload } from '@/composables/imageUpload'
-import { bgRmove } from '@/api'
+import { objRmove } from '@/api'
 
 const { editorRef, generate, uploadImageUrl, handleClear } = useImageUpload()
 </script>
@@ -13,7 +13,7 @@ const { editorRef, generate, uploadImageUrl, handleClear } = useImageUpload()
       show-drawer
       @imgUploaded="uploadImageUrl"
       @clear="handleClear"
-      @generate="generate(bgRmove)"
+      @generate="generate(objRmove)"
     />
     <!-- <el-form
       :model="form"

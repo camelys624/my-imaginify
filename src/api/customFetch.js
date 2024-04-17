@@ -3,11 +3,14 @@ import apiConfig from './apiConfig'
 export default function customFetch(url, options = {}, useDefault) {
   const token = localStorage.getItem('token')
   const headers = {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'mode': 'no-cors'
   }
 
   if (token) {
-    headers.Authorization = `Bearer ${token}`
+    options.headers={
+      Authorization: token
+    }
   }
 
   return fetch(`${apiConfig.API_URL}/${url}`, {
