@@ -2,7 +2,7 @@
   <div class="editor-container">
     <div v-show="hasUploaded" class="preview-box">
       <div class="image-wrapper">
-        <img id="editorImg" src="@/assets/login.jpg" alt="preview" />
+        <img id="editorImg" :src="imageUrl" alt="preview" />
         <canvas
           v-if="props.showDrawer"
           ref="maskCanvas"
