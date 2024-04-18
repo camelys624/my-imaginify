@@ -54,9 +54,8 @@
 import { UploadFilled, Delete } from '@element-plus/icons-vue'
 import IconComparison from '@/components/icons/IconComparison.vue'
 import ImageComparison from '@/components/ImageComparison.vue'
-import { ref, reactive, defineProps, onMounted, defineEmits } from 'vue'
+import { ref, reactive, defineProps, onMounted, defineEmits, defineExpose } from 'vue'
 import Drawer from '@/utils/drawLine'
-import { defineExpose } from 'vue'
 import { uploadImg } from '@/api'
 
 const FORMET_URL = 'http://sb9lsai7u.hn-bkt.clouddn.com/'
@@ -122,6 +121,7 @@ const customUpload = ({ file }) => {
   const form = new FormData()
   form.append('file', file)
   form.append('filename', file.name)
+  // form.append('function', 'restore')
 
   uploadImg(form).then((res) => {
     if (res.code) {

@@ -13,7 +13,7 @@ const { editorRef, generate, uploadImageUrl, handleClear } = useImageUpload()
       show-drawer
       @imgUploaded="uploadImageUrl"
       @clear="handleClear"
-      @generate="generate(objRmove)"
+      @generate="generate(objRmove, $event)"
     />
     <!-- <el-form
       :model="form"
