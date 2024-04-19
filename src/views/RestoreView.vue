@@ -8,7 +8,13 @@ const { editorRef, generate, uploadImageUrl, handleClear } = useImageUpload()
 
 <template>
   <div class="page-container">
-    <ImageEditor ref="editorRef" @imgUploaded="uploadImageUrl" @clear="handleClear" @generate="generate(restoreImg)" />
+    <ImageEditor
+      ref="editorRef"
+      :function="1"
+      @imgUploaded="uploadImageUrl"
+      @clear="handleClear"
+      @generate="generate(restoreImg)"
+    />
     <!-- <el-form
       :model="form"
       ref="formRef"

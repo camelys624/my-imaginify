@@ -20,6 +20,10 @@
           </el-form-item>
           <el-form-item label="密码" prop="password">
             <el-input v-model="form.password" />
+            <!-- <el-link type="primary" style="position: absolute; bottom: 0;">忘记密码</el-link> -->
+          </el-form-item>
+          <el-form-item>
+            <el-link :underline="false" type="primary" style="position: absolute;right: 0;">忘记密码</el-link>
           </el-form-item>
           <el-form-item>
             <el-button
@@ -27,6 +31,15 @@
               style="width: 100%; background: var(--system-bg); border: none"
               @click="submitForm(loginForm)"
               >登录</el-button
+            >
+          </el-form-item>
+          <el-divider border-style="dashed">还没有账号？</el-divider>
+          <el-form-item>
+            <el-button
+              plain
+              style="width: 100%;"
+              @click="submitForm(loginForm)"
+              >立即注册</el-button
             >
           </el-form-item>
         </el-form>

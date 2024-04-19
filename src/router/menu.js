@@ -2,6 +2,7 @@ import IconHome from '@/components/icons/IconHome.vue'
 import IconRestore from '@/components/icons/IconRestore.vue'
 import IconObjRemove from '@/components/icons/IconObjRemove.vue'
 import IconBgRemove from '@/components/icons/IconBgRemove.vue'
+import IconImg2Text from '@/components/icons/IconImg2Text.vue'
 
 export const menuList = [
   {
@@ -31,5 +32,12 @@ export const menuList = [
     label: '去除背景',
     component: () => import('../views/RemoveBgView.vue'),
     icon: IconBgRemove
+  },
+  {
+    path: '/img2text',
+    name: 'img2text',
+    label: '文字识别',
+    component: () => import('../views/Image2Text.vue'),
+    icon: IconImg2Text
   }
 ]

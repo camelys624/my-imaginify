@@ -54,7 +54,7 @@
 import { UploadFilled, Delete } from '@element-plus/icons-vue'
 import IconComparison from '@/components/icons/IconComparison.vue'
 import ImageComparison from '@/components/ImageComparison.vue'
-import { ref, reactive, defineProps, onMounted, defineEmits, defineExpose } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import Drawer from '@/utils/drawLine'
 import { uploadImg } from '@/api'
 
@@ -65,6 +65,10 @@ const props = defineProps({
   showDrawer: {
     type: Boolean,
     default: false
+  },
+  function: {
+    type: Number,
+    default: 0
   }
 })
 const emit = defineEmits(['imgUploaded', 'clear', 'generate'])
@@ -102,12 +106,22 @@ const initMaskCanvas = () => {
     drawer.beginDraw(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop)
   })
 
+  canvas.addEventListener('mouseenter', (e) => {
+    customCursor.value.style.display = 'block'
+    customCursor.value.style.left = e.clientX + 'px'
+    customCursor.value.style.top = e.clientY + 'px'
+  })
+
   canvas.addEventListener('mousemove', (e) => {
     const x = e.clientX - canvas.offsetLeft
     const y = e.clientY - canvas.offsetTop
     customCursor.value.style.left = e.clientX + 'px'
     customCursor.value.style.top = e.clientY + 'px'
     drawer.drawing(x, y)
+  })
+
+  canvas.addEventListener('mouseleave', () => {
+    customCursor.value.style.display = 'none'
   })
 
   canvas.addEventListener('mouseup', () => {
@@ -121,7 +135,7 @@ const customUpload = ({ file }) => {
   const form = new FormData()
   form.append('file', file)
   form.append('filename', file.name)
-  // form.append('function', 'restore')
+  form.append('function', props.function)
 
   uploadImg(form).then((res) => {
     if (res.code) {
@@ -205,8 +219,8 @@ defineExpose({ updateImageUrl })
 }
 
 .preview-box {
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .preview-box img {
@@ -249,5 +263,6 @@ defineExpose({ updateImageUrl })
   height: 10px;
   pointer-events: none;
   transform: translate(-50%, -50%);
+  display: none;
 }
 </style>

@@ -10,10 +10,11 @@ const { editorRef, generate, uploadImageUrl, handleClear } = useImageUpload()
   <div class="page-container">
     <ImageEditor
       ref="editorRef"
+      :function="2"
       show-drawer
       @imgUploaded="uploadImageUrl"
       @clear="handleClear"
-      @generate="generate(objRmove, $event)"
+      @generate="(imgUrl) => generate(objRmove, imgUrl)"
     />
     <!-- <el-form
       :model="form"
