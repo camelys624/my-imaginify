@@ -27,7 +27,7 @@
       </el-form-item>
       <el-form-item>
         <el-button
-          v-if="!hasUploaded"
+          v-if="!generated"
           type="primary"
           style="width: 100%; background: var(--system-bg); border: none"
           @click="generate"
@@ -53,6 +53,7 @@ import { ElLoading } from 'element-plus'
 
 const imageUrl = ref('')
 const hasUploaded = ref(false)
+const generated = ref(false)
 const content = ref('')
 const form = ref(null)
 const FORMET_URL = 'http://sb9lsai7u.hn-bkt.clouddn.com/'
@@ -84,6 +85,7 @@ const customUpload = ({ file }) => {
 const generate = () => {
   imgOcr({ imageName }).then((res) => {
     if (res.code) {
+      generated.value=true
       content.value = res.data
     }
   })

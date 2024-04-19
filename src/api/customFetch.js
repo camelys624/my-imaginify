@@ -22,7 +22,7 @@ export default function customFetch(url, options = {}, useDefault) {
           ...options.headers
         }
   }).then((res) => {
-    if (res.status === 401) {
+    if (res.status === 401||res.status=== 403) {
       localStorage.removeItem('token')
       localStorage.removeItem('user')
       window.open('/login', '_self')
