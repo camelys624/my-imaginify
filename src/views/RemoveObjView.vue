@@ -10,7 +10,7 @@ const { editorRef, generate, uploadImageUrl, handleClear } = useImageUpload()
   <div class="page-container">
     <ImageEditor
       ref="editorRef"
-      :function="2"
+      function="2"
       show-drawer
       @imgUploaded="uploadImageUrl"
       @clear="handleClear"

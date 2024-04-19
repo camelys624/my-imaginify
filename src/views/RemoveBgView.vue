@@ -10,7 +10,7 @@ const { editorRef, generate, uploadImageUrl, handleClear } = useImageUpload()
   <div class="page-container">
     <ImageEditor
       ref="editorRef"
-      :function="3"
+      function="3"
       @imgUploaded="uploadImageUrl"
       @clear="handleClear"
       @generate="generate(bgRmove)"

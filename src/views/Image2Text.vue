@@ -59,7 +59,7 @@ const customUpload = ({ file }) => {
   const form = new FormData()
   form.append('file', file)
   form.append('filename', file.name)
-  form.append('function', 4)
+  form.append('function', "4")
 
   uploadImg(form).then((res) => {
     if (res.code) {

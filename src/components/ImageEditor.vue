@@ -67,8 +67,8 @@ const props = defineProps({
     default: false
   },
   function: {
-    type: Number,
-    default: 0
+    type: String,
+    default: "0"
   }
 })
 const emit = defineEmits(['imgUploaded', 'clear', 'generate'])
