@@ -27,10 +27,18 @@
       </el-form-item>
       <el-form-item>
         <el-button
+          v-if="!hasUploaded"
+          type="primary"
+          style="width: 100%; background: var(--system-bg); border: none"
+          @click="generate"
+          >处理</el-button
+        >
+        <el-button
+          v-else
           type="primary"
           style="width: 100%; background: var(--system-bg); border: none"
           @click="handleCopy"
-          >copy</el-button
+          >复制</el-button
         >
       </el-form-item>
     </el-form>
@@ -39,7 +47,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { uploadImg } from '@/api'
+import { uploadImg, imgOcr } from '@/api'
 import { UploadFilled } from '@element-plus/icons-vue'
 import { ElLoading } from 'element-plus'
 
@@ -48,6 +56,7 @@ const hasUploaded = ref(false)
 const content = ref('')
 const form = ref(null)
 const FORMET_URL = 'http://sb9lsai7u.hn-bkt.clouddn.com/'
+let imageName = ''
 
 const customUpload = ({ file }) => {
   const loading = ElLoading.service({
@@ -59,15 +68,24 @@ const customUpload = ({ file }) => {
   const form = new FormData()
   form.append('file', file)
   form.append('filename', file.name)
-  form.append('function', "4")
+  form.append('function', '4')
 
   uploadImg(form).then((res) => {
     if (res.code) {
+      imageName = res.data
       imageUrl.value = FORMET_URL + res.data
       hasUploaded.value = true
     }
 
     loading.close()
+  })
+}
+
+const generate = () => {
+  imgOcr({ imageName }).then((res) => {
+    if (res.code) {
+      content.value = res.data
+    }
   })
 }
 
@@ -79,7 +97,6 @@ const handleCopy = () => {
   navigator.clipboard.writeText(content.value).then(() => {
     console.log('copy success')
   })
-
 }
 </script>
 
