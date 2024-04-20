@@ -198,8 +198,6 @@ const generate = async () => {
       drawer.clear()
       emit('generate', img)
     }
-    setLoading(false)
-
     return
   }
 

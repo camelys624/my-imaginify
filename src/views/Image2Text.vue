@@ -85,6 +85,7 @@ const customUpload = ({ file }) => {
 }
 
 const generate = () => {
+  if (!imageName) return
   imgOcr({ imageName }).then((res) => {
     if (res.code) {
       generated.value = true
@@ -104,7 +105,9 @@ const handleCopy = () => {
 }
 
 const updateEditorImage = (url) => {
-  imageUrl.value = url
+  imageUrl.value = FORMET_URL + url
+  imageName = url
+  hasUploaded.value = true
 }
 </script>
 
