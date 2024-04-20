@@ -59,8 +59,8 @@ const goto = (path) => {
           <h1>修复老旧照片</h1>
           <div>
             <p>
-              想要修复老旧的照片，或者提高图片的清晰度，但是不会使用复杂的编辑软件？ 使用 VisioNex AI
-              的 ai 修复功能，只需要上传您想要修复的图片，等待几秒，高清图片就能呈现在您面前。
+              想要修复老旧的照片，或者提高图片的清晰度，但是不会使用复杂的编辑软件？ 使用 VisioNex
+              AI 的 ai 修复功能，只需要上传您想要修复的图片，等待几秒，高清图片就能呈现在您面前。
             </p>
             <el-button
               type="primary"
@@ -107,6 +107,26 @@ const goto = (path) => {
             >
           </div>
         </div>
+      </section>
+      <section class="page-section section-2">
+        <div class="text-area">
+          <h1>文字识别</h1>
+          <div>
+            <p>
+              从图片、QQ、微信甚至从课堂笔记截图（PDF、Word
+              等）中获取文字。如果你无法识别朋友的手写文字，这款工具可以帮你实现。
+              最重要的是，你可以在线将图片转换为文字，而无需考虑图片的格式，如
+              .JPG、.JPEG、.JPE、.JIF、.PNG、.TIFF 等。
+            </p>
+            <el-button
+              type="primary"
+              style="background: var(--system-bg); border: none"
+              @click="goto('/img2text')"
+              >立即开始</el-button
+            >
+          </div>
+        </div>
+        <div class="image-placeholder"></div>
       </section>
     </div>
   </div>

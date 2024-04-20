@@ -1,5 +1,6 @@
 <template>
   <div class="page-container" style="padding: 20px">
+    <ImageHistory function="4" @updateEditImage="updateEditorImage" />
     <div class="image-editor-wrapper">
       <div v-show="hasUploaded" class="image-wrapper">
         <img :src="imageUrl" alt="" srcset="" />
@@ -50,6 +51,7 @@ import { ref } from 'vue'
 import { uploadImg, imgOcr } from '@/api'
 import { UploadFilled } from '@element-plus/icons-vue'
 import { ElLoading } from 'element-plus'
+import ImageHistory from '@/components/ImageHistory.vue'
 
 const imageUrl = ref('')
 const hasUploaded = ref(false)
@@ -85,7 +87,7 @@ const customUpload = ({ file }) => {
 const generate = () => {
   imgOcr({ imageName }).then((res) => {
     if (res.code) {
-      generated.value=true
+      generated.value = true
       content.value = res.data
     }
   })
@@ -99,6 +101,10 @@ const handleCopy = () => {
   navigator.clipboard.writeText(content.value).then(() => {
     console.log('copy success')
   })
+}
+
+const updateEditorImage = (url) => {
+  imageUrl.value = url
 }
 </script>
 

@@ -49,3 +49,9 @@ export const imgOcr = (args) => {
     body: JSON.stringify(args)
   })
 }
+
+export const getHistory = (func) => {
+  return customFetch('', {
+    method: ''
+  })
+}

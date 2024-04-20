@@ -12,21 +12,33 @@ export function useImageUpload() {
   // })
   const editorRef = ref(null)
 
+  const updateEditorImage = (imageUrl) => {
+    editorRef.value.updateImageUrl(imageUrl)
+  }
+
+  let loading
+  const setLoading = (status = true) => {
+    if (status) {
+      loading = ElLoading.service({
+        lock: true,
+        text: '处理中',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
+    } else {
+      loading && loading.close()
+    }
+  }
+
   const generate = async (cb, maskImg) => {
     if (!form.imageName) return
 
-    const loading = ElLoading.service({
-      lock: true,
-      text: '处理中',
-      background: 'rgba(0, 0, 0, 0.7)'
-    })
+    setLoading()
 
     cb({ ...form, maskImg }).then((res) => {
-      console.log(res)
       if (res.code) {
-        editorRef.value.updateImageUrl(res.data)
+        updateEditorImage(res.data)
       }
-      loading.close()
+      setLoading(false)
     })
 
     // await formEl.validate((valid, fields) => {
@@ -51,10 +63,11 @@ export function useImageUpload() {
   return {
     form,
     editorRef,
-    // rules,
+    setLoading,
     formRef,
     generate,
     uploadImageUrl,
-    handleClear
+    handleClear,
+    updateEditorImage
   }
 }

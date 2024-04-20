@@ -60,6 +60,9 @@ import ImageComparison from '@/components/ImageComparison.vue'
 import { ref, reactive, onMounted } from 'vue'
 import Drawer from '@/utils/drawLine'
 import { uploadImg } from '@/api'
+import { useImageUpload } from '@/composables/imageUpload'
+
+const { setLoading } = useImageUpload()
 
 const FORMET_URL = 'http://sb9lsai7u.hn-bkt.clouddn.com/'
 const UPDATE_URL = 'http://sb9lj8m6v.hn-bkt.clouddn.com/'
@@ -187,6 +190,7 @@ const handleComparison = () => {
 
 const generate = async () => {
   if (props.showDrawer) {
+    setLoading()
     const { status, message, img } = await drawer.exportImage(imageUrl.value)
     if (!status) {
       console.log(message)
@@ -194,6 +198,7 @@ const generate = async () => {
       drawer.clear()
       emit('generate', img)
     }
+    setLoading(false)
 
     return
   }
