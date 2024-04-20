@@ -26,7 +26,7 @@
               <div class="imaginify-avatar">
                 <div class="avatar-img">
                   <img v-if="userInfo.avatar" src="" alt="avatar" />
-                  <div v-else class="avatar-img__holder">杨</div>
+                  <el-avatar v-else :size="46" :src="circleUrl" />
                 </div>
               </div>
             </template>
@@ -59,6 +59,8 @@ import { useCounterStore } from '@/stores/auth.js'
 
 const authStore = useCounterStore()
 const userInfo = authStore.user
+
+const circleUrl = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
 
 const sampleMenuList = computed(() =>
   menuList.map(({ label, name, path, icon }) => ({ label, name, path, icon }))
