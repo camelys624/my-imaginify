@@ -13,6 +13,10 @@ export function useImageUpload() {
   const editorRef = ref(null)
 
   const updateEditorImage = (imageUrl, isOrigin) => {
+    if (isOrigin) {
+      form.imageName = imageUrl
+    }
+
     editorRef.value.updateImageUrl(imageUrl, isOrigin)
   }
 
