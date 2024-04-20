@@ -33,6 +33,9 @@
             @click="handleComparison"
           />
         </el-tooltip>
+        <el-tooltip class="box-item" effect="dark" content="下载" placement="top">
+          <el-button :icon="Download" :disabled="!hasGenerated" circle @click="handleDownload" />
+        </el-tooltip>
         <el-tooltip class="box-item" effect="dark" content="清除" placement="top">
           <el-button :icon="Delete" circle @click="handleClear" />
         </el-tooltip>
@@ -51,7 +54,7 @@
 </template>
 
 <script setup>
-import { UploadFilled, Delete } from '@element-plus/icons-vue'
+import { UploadFilled, Delete, Download } from '@element-plus/icons-vue'
 import IconComparison from '@/components/icons/IconComparison.vue'
 import ImageComparison from '@/components/ImageComparison.vue'
 import { ref, reactive, onMounted } from 'vue'
@@ -68,7 +71,7 @@ const props = defineProps({
   },
   function: {
     type: String,
-    default: "0"
+    default: '0'
   }
 })
 const emit = defineEmits(['imgUploaded', 'clear', 'generate'])
@@ -184,7 +187,7 @@ const handleComparison = () => {
 
 const generate = () => {
   if (props.showDrawer) {
-    const { status, message, img } = drawer.exportImage()
+    const { status, message, img } = drawer.exportImage(imageUrl.value)
     if (!status) {
       console.log(message)
     } else {
@@ -205,6 +208,18 @@ const updateImageUrl = (url) => {
   hasGenerated.value = true
 }
 
+const handleDownload = () => {
+  const link = document.createElement('a')
+  link.href = imageUrl.value
+  link.download = 'image' + Date.now()
+  link.style.display = 'none'
+
+  document.body.appendChild(link)
+  link.click()
+
+  document.body.removeChild(link)
+}
+
 defineExpose({ updateImageUrl })
 </script>
 
@@ -221,21 +236,24 @@ defineExpose({ updateImageUrl })
 .preview-box {
   max-width: 100%;
   max-height: 100%;
+  height: 100%;
 }
 
 .preview-box img {
   max-width: 100%;
   max-height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   pointer-events: none;
   user-select: none;
 }
 
 .image-wrapper {
   width: 100%;
-  height: calc(100% - 50px);
+  height: calc(100% - 60px);
+  max-height: min-content;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .editor-tool {

@@ -49,7 +49,7 @@ export default class Drawer {
     this.#points = []
   }
 
-  exportImage() {
+  async exportImage(imageUrl) {
     if (!this.#points.length) {
       return {
         status: false,
@@ -78,10 +78,33 @@ export default class Drawer {
         exportContext.stroke()
       })
 
+      const { widthScale = 1, heightScale = 1 } = await this.#getScaleRatio(imageUrl)
+      exportContext.scale(widthScale, heightScale)
+
       return {
         status: true,
         img: exportCanvas.toDataURL('image/png')
       }
     }
+  }
+  #getScaleRatio(imageUrl) {
+    return new Promise((resolve, reject) => {
+      const img = new Image()
+      img.src = imageUrl
+
+      img.onload = () => {
+        const widthScale = img.width / this.#width
+        const heightScale = img.height / this.#height
+
+        resolve({
+          widthScale,
+          heightScale
+        })
+      }
+
+      img.onerror = () => {
+        reject({})
+      }
+    })
   }
 }

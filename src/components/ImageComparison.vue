@@ -97,12 +97,6 @@ onUnmounted(() => {
   overflow: hidden;
 }
 
-.image-wrapper img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
 .handler {
   position: absolute;
   height: 20px;
