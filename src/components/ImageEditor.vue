@@ -208,10 +208,13 @@ const updateImageUrl = (url) => {
   hasGenerated.value = true
 }
 
-const handleDownload = () => {
+const handleDownload = async () => {
+  const image = await fetch(imageUrl.value)
+  const imageBlob = await image.blob()
+  const imageURL = URL.createObjectURL(imageBlob)
   const link = document.createElement('a')
-  link.href = imageUrl.value
-  link.download = 'image' + Date.now()
+  link.href = imageURL
+  link.download = 'image-' + Date.now() + '.png'
   link.style.display = 'none'
 
   document.body.appendChild(link)
