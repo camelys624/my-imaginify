@@ -77,12 +77,11 @@ export default class Drawer {
         exportContext.lineWidth = this.#brushSize
         exportContext.stroke()
       })
-      const { widthScale = 1, heightScale = 1 } = await this.#getScaleRatio(imageUrl)
-      exportContext.scale(widthScale, heightScale)
       const imageData = exportContext.getImageData(0, 0, this.#width, this.#height)
+      const { widthScale = 1, heightScale = 1 } = await this.#getScaleRatio(imageUrl)
       exportCanvas.width = this.#width * widthScale
       exportCanvas.height = this.#height * heightScale
-      exportContext.putImageData(imageData, 0, 0)
+      exportContext.putImageData(imageData, 0, 0, 0, 0, exportCanvas.width, exportCanvas.height)
 
       return {
         status: true,
