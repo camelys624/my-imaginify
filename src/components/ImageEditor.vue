@@ -185,9 +185,9 @@ const handleComparison = () => {
   comparisonVisible.value = !comparisonVisible.value
 }
 
-const generate = () => {
+const generate = async () => {
   if (props.showDrawer) {
-    const { status, message, img } = drawer.exportImage(imageUrl.value)
+    const { status, message, img } = await drawer.exportImage(imageUrl.value)
     if (!status) {
       console.log(message)
     } else {

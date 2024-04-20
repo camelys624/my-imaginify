@@ -77,7 +77,6 @@ export default class Drawer {
         exportContext.lineWidth = this.#brushSize
         exportContext.stroke()
       })
-
       const { widthScale = 1, heightScale = 1 } = await this.#getScaleRatio(imageUrl)
       exportContext.scale(widthScale, heightScale)
 
