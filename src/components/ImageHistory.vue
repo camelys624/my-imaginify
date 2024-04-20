@@ -1,6 +1,6 @@
 <template>
   <el-popover
-    :width="400"
+    :width="450"
     popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;"
   >
     <template #reference>
@@ -11,7 +11,10 @@
     <template #default>
       <ul class="history-list">
         <li v-for="(item, index) in historyList" :key="index">
-          <span>{{ item.imageName }}</span>
+          <div style="display: flex; align-items: center">
+            <img :src="FORMET_URL + item.imageName" style="width: 30px; height: 30px" />
+            {{ item.imageName }}
+          </div>
           <el-button size="small" @click="handleEdit(item.imageName)">编辑</el-button>
         </li>
       </ul>
@@ -24,6 +27,8 @@ import IconHistory from './icons/IconHistory.vue'
 import { getHistory } from '@/api'
 import { ref } from 'vue'
 const emit = defineEmits(['updateEditImage'])
+
+const FORMET_URL = 'http://sb9lsai7u.hn-bkt.clouddn.com/'
 
 const props = defineProps({
   function: {
@@ -55,11 +60,14 @@ const handleEdit = (item) => {
 
 .history-list {
   list-style: none;
+  padding: 0;
 }
 
 .history-list li {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--color-border);
 }
 </style>
