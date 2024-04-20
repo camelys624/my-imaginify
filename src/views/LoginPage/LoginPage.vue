@@ -4,8 +4,8 @@
       <div class="login-form-wrapper">
         <IconLogo />
         <p style="margin: 20px 0; text-align: center">
-          欢迎来到我们的AI图片处理网站！<br />
-          修复、移除对象、更换背景，一键搞定！
+          欢迎来到我们的AI图像处理网站！<br />
+          修复、移除对象、更换背景、文本识别一键搞定！
         </p>
         <el-form
           ref="loginForm"
