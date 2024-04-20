@@ -2,7 +2,7 @@
   <div class="editor-container">
     <div v-show="hasUploaded" class="preview-box">
       <div class="image-wrapper">
-        <img id="editorImg" src="/hero-bg.png" alt="preview" />
+        <img id="editorImg" :src="imageUrl" alt="preview" />
         <canvas
           v-if="props.showDrawer"
           ref="maskCanvas"
@@ -48,7 +48,7 @@
     <image-comparison
       v-show="comparisonVisible"
       :position-props="comparisonProps"
-      image-url="/hero-bg.png"
+      :image-url="comparisonImg"
     />
   </div>
 </template>
@@ -80,9 +80,9 @@ const brushSize = ref(10)
 const imageUrl = ref('')
 const maskCanvas = ref(null)
 const customCursor = ref(null)
-const hasUploaded = ref(true)
-const hasGenerated = ref(true)
-const comparisonVisible = ref(true)
+const hasUploaded = ref(false)
+const hasGenerated = ref(false)
+const comparisonVisible = ref(false)
 const comparisonProps = reactive({
   left: 0,
   top: 0,
@@ -245,6 +245,8 @@ defineExpose({ updateImageUrl })
 .preview-box img {
   max-width: 100%;
   max-height: 100%;
+  height: max-content;
+  width: max-content;
   object-fit: contain;
   pointer-events: none;
   user-select: none;
@@ -257,11 +259,6 @@ defineExpose({ updateImageUrl })
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.image-wrapper img {
-  width: max-content;
-  height: max-content;
 }
 
 .editor-tool {
