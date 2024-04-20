@@ -56,32 +56,33 @@ export default class Drawer {
         message: '请选择您想要移除的物体'
       }
     } else {
+      const {
+        widthScale = 1,
+        heightScale = 1,
+        originWidth,
+        originHeight
+      } = await this.#getScaleRatio(imageUrl)
       const exportCanvas = document.createElement('canvas')
       // exportCanvas.style.display = 'none'
-      exportCanvas.width = this.#width
-      exportCanvas.height = this.#height
+      exportCanvas.width = originWidth || this.#width
+      exportCanvas.height = originHeight || this.#height
       // document.body.appendChild(exportCanvas)
       const exportContext = exportCanvas.getContext('2d')
 
       exportContext.fillStyle = 'black'
-      exportContext.fillRect(0, 0, this.#width, this.#height)
+      exportContext.fillRect(0, 0, exportCanvas.width, exportCanvas.height)
 
       const firstPoint = this.#points.shift()
       exportContext.lineCap = 'round'
       exportContext.lineJoin = 'round'
       exportContext.beginPath()
-      exportContext.moveTo(firstPoint[0], firstPoint[1])
+      exportContext.moveTo(firstPoint[0] * widthScale, firstPoint[1] * heightScale)
       this.#points.forEach(([x, y]) => {
-        exportContext.lineTo(x, y)
+        exportContext.lineTo(x * widthScale, y * heightScale)
         exportContext.strokeStyle = 'white'
-        exportContext.lineWidth = this.#brushSize
+        exportContext.lineWidth = this.#brushSize * widthScale
         exportContext.stroke()
       })
-      const imageData = exportContext.getImageData(0, 0, this.#width, this.#height)
-      const { widthScale = 1, heightScale = 1 } = await this.#getScaleRatio(imageUrl)
-      exportCanvas.width = this.#width * widthScale
-      exportCanvas.height = this.#height * heightScale
-      exportContext.putImageData(imageData, 0, 0, 0, 0, exportCanvas.width, exportCanvas.height)
 
       return {
         status: true,
@@ -99,6 +100,8 @@ export default class Drawer {
         const heightScale = img.height / this.#height
 
         resolve({
+          originWidth: img.width,
+          originHeight: img.height,
           widthScale,
           heightScale
         })
