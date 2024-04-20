@@ -1,7 +1,7 @@
 <template>
   <div class="icon-wrapper">
     <img :src="icon" style="width: 35px" alt="icon" />
-    <span>Imaginify</span>
+    <span>VisioNex AI</span>
   </div>
 </template>
 
