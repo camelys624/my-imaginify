@@ -9,7 +9,7 @@
       </div>
     </template>
     <template #default>
-      <ul>
+      <ul class="history-list">
         <li v-for="(item, index) in historyList" :key="index">
           <span>{{ item.imageName }}</span>
           <el-button size="small" @click="handleEdit(item.imageName)">编辑</el-button>
@@ -51,5 +51,15 @@ const handleEdit = (item) => {
   left: 100px;
   top: 100px;
   cursor: pointer;
+}
+
+.history-list {
+  list-style: none;
+}
+
+.history-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 </style>

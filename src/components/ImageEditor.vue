@@ -206,11 +206,16 @@ const generate = async () => {
   emit('generate')
 }
 
-const updateImageUrl = (url) => {
-  comparisonImg.value = imageUrl.value
-  imageUrl.value = UPDATE_URL + url
+const updateImageUrl = (url, isOrigin = false) => {
+  if (isOrigin) {
+    hasUploaded.value = true
+    imageUrl.value = FORMET_URL + url
+  } else {
+    comparisonImg.value = imageUrl.value
+    imageUrl.value = UPDATE_URL + url
 
-  hasGenerated.value = true
+    hasGenerated.value = true
+  }
 }
 
 const handleDownload = async () => {

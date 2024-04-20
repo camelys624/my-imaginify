@@ -9,7 +9,7 @@ const { editorRef, generate, uploadImageUrl, handleClear, updateEditorImage } = 
 
 <template>
   <div class="page-container">
-    <ImageHistory function="2" @updateEditImage="updateEditorImage" />
+    <ImageHistory function="2" @updateEditImage="(url) => updateEditorImage(url, true)" />
     <ImageEditor
       ref="editorRef"
       function="2"

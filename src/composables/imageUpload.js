@@ -12,8 +12,8 @@ export function useImageUpload() {
   // })
   const editorRef = ref(null)
 
-  const updateEditorImage = (imageUrl) => {
-    editorRef.value.updateImageUrl(imageUrl)
+  const updateEditorImage = (imageUrl, isOrigin) => {
+    editorRef.value.updateImageUrl(imageUrl, isOrigin)
   }
 
   let loading
