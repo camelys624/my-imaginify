@@ -11,8 +11,8 @@
     <template #default>
       <ul>
         <li v-for="(item, index) in historyList" :key="index">
-          <span>{{ item }}</span>
-          <el-button size="small" @click="handleEdit(item)">编辑</el-button>
+          <span>{{ item.imageName }}</span>
+          <el-button size="small" @click="handleEdit(item.imageName)">编辑</el-button>
         </li>
       </ul>
     </template>
@@ -34,11 +34,11 @@ const props = defineProps({
 
 const historyList = ref([])
 
-// getHistory(props.function).then((res) => {
-//   if (res.code) {
-//     historyList.value = res.data
-//   }
-// })
+getHistory(props.function).then((res) => {
+  if (res.code) {
+    historyList.value = res.data
+  }
+})
 
 const handleEdit = (item) => {
   emit('updateEditImage', item)

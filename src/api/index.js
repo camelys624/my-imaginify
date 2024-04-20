@@ -51,7 +51,5 @@ export const imgOcr = (args) => {
 }
 
 export const getHistory = (func) => {
-  return customFetch('', {
-    method: ''
-  })
+  return customFetch('index?function=' + func)
 }
