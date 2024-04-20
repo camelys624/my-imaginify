@@ -79,8 +79,11 @@ export default class Drawer {
       })
       const { widthScale = 1, heightScale = 1 } = await this.#getScaleRatio(imageUrl)
       exportContext.scale(widthScale, heightScale)
-      exportCanvas.width=this.#width*widthScale
-      exportCanvas.height=this.#height*heightScale
+      const imageData = exportContext.getImageData(0, 0, this.#width, this.#height)
+      exportCanvas.width = this.#width * widthScale
+      exportCanvas.height = this.#height * heightScale
+      exportContext.putImageData(imageData, 0, 0)
+
       return {
         status: true,
         img: exportCanvas.toDataURL('image/png')
