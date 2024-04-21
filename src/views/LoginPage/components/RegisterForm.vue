@@ -21,7 +21,7 @@
         type="primary"
         style="width: 100%; background: var(--system-bg); border: none"
         @click="submitForm(registerForm)"
-        >登录</el-button
+        >注册</el-button
       >
     </el-form-item>
     <el-divider border-style="dashed">已有账号？</el-divider>
