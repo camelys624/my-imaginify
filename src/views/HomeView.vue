@@ -71,7 +71,7 @@ const goto = (path) => {
           ></video>
         </div>
         <div class="text-area">
-          <h1>修复老旧照片</h1>
+          <h1>修复图像</h1>
           <div>
             <p>
               想要修复老旧的照片，或者提高图片的清晰度，但是不会使用复杂的编辑软件？ 使用 VisioNex
