@@ -61,6 +61,7 @@ import { ref, reactive, onMounted } from 'vue'
 import Drawer from '@/utils/drawLine'
 import { uploadImg } from '@/api'
 import { useImageUpload } from '@/composables/imageUpload'
+import { ElMessage } from 'element-plus'
 
 const { setLoading } = useImageUpload()
 
@@ -151,6 +152,12 @@ const customUpload = ({ file }) => {
       initMaskCanvas()
       emit('imgUploaded', res.data)
     }
+
+    ElMessage({
+      message: res.code ? '上传成功' : '上传失败',
+      grouping: true,
+      type: res.code ? 'success' : 'error'
+    })
   })
 }
 
@@ -194,6 +201,7 @@ const generate = async () => {
     const { status, message, img } = await drawer.exportImage(imageUrl.value)
     if (!status) {
       console.log(message)
+      ElMessage.error('图片生成失败')
     } else {
       drawer.clear()
       emit('generate', img)

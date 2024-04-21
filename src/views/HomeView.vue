@@ -45,7 +45,15 @@ const goto = (path) => {
             >
           </div>
         </div>
-        <div class="image-placeholder"></div>
+        <div class="image-placeholder">
+          <video
+            autoplay
+            loop
+            muted
+            src="http://sb9lj8m6v.hn-bkt.clouddn.com/%E7%89%A9%E4%BD%93%E6%93%A6%E9%99%A4%E6%BC%94%E7%A4%BA.mp4"
+            style="transform: translate(-290px, -49px); height: 120%"
+          ></video>
+        </div>
       </div>
     </section>
     <div class="home-page-wrapper">
@@ -54,7 +62,14 @@ const goto = (path) => {
         <h3 style="font-size: 30px">现已支持以下功能</h3>
       </div>
       <section class="page-section section-1">
-        <div class="image-placeholder"></div>
+        <div class="image-placeholder">
+          <video
+            autoplay
+            loop
+            muted
+            src="http://sb9lj8m6v.hn-bkt.clouddn.com/%E4%BF%AE%E5%A4%8D%E6%A8%A1%E7%B3%8A%E5%9B%BE%E5%83%8F%E6%BC%94%E7%A4%BA.mp4"
+          ></video>
+        </div>
         <div class="text-area">
           <h1>修复老旧照片</h1>
           <div>
@@ -88,10 +103,24 @@ const goto = (path) => {
             >
           </div>
         </div>
-        <div class="image-placeholder"></div>
+        <div class="image-placeholder">
+          <video
+            autoplay
+            loop
+            muted
+            src="http://sb9lj8m6v.hn-bkt.clouddn.com/%E7%89%A9%E4%BD%93%E6%93%A6%E9%99%A4%E6%BC%94%E7%A4%BA.mp4"
+          ></video>
+        </div>
       </section>
       <section class="page-section section-1">
-        <div class="image-placeholder"></div>
+        <div class="image-placeholder">
+          <video
+            autoplay
+            loop
+            muted
+            src="http://sb9lj8m6v.hn-bkt.clouddn.com/%E8%83%8C%E6%99%AF%E5%8E%BB%E9%99%A4%E6%BC%94%E7%A4%BA.mp4"
+          ></video>
+        </div>
         <div class="text-area">
           <h1>删除背景</h1>
           <div>
@@ -126,7 +155,14 @@ const goto = (path) => {
             >
           </div>
         </div>
-        <div class="image-placeholder"></div>
+        <div class="image-placeholder">
+          <video
+            autoplay
+            loop
+            muted
+            src="http://sb9lj8m6v.hn-bkt.clouddn.com/%E6%96%87%E5%AD%97%E8%AF%86%E5%88%AB%E6%BC%94%E7%A4%BA.mp4"
+          ></video>
+        </div>
       </section>
     </div>
   </div>
@@ -185,6 +221,7 @@ const goto = (path) => {
   border-radius: 20px;
   background-color: gainsboro;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
 }
 
 h1 {
@@ -222,5 +259,11 @@ p {
 .page-section .text-area {
   justify-content: start;
   gap: 60px;
+}
+
+video {
+  height: 100%;
+  object-fit: cover;
+  transform: translateX(-10px);
 }
 </style>

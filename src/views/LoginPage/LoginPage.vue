@@ -23,7 +23,9 @@
             <!-- <el-link type="primary" style="position: absolute; bottom: 0;">忘记密码</el-link> -->
           </el-form-item>
           <el-form-item>
-            <el-link :underline="false" type="primary" style="position: absolute;right: 0;">忘记密码</el-link>
+            <el-link :underline="false" type="primary" style="position: absolute; right: 0"
+              >忘记密码</el-link
+            >
           </el-form-item>
           <el-form-item>
             <el-button
@@ -35,12 +37,7 @@
           </el-form-item>
           <el-divider border-style="dashed">还没有账号？</el-divider>
           <el-form-item>
-            <el-button
-              plain
-              style="width: 100%;"
-              @click="submitForm(loginForm)"
-              >立即注册</el-button
-            >
+            <el-button plain style="width: 100%">立即注册</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -57,6 +54,7 @@ import { useRouter } from 'vue-router'
 import IconLogo from '@/components/icons/IconLogo.vue'
 import { loginApi } from './api/index'
 import { useCounterStore } from '@/stores/auth'
+import { ElMessage } from 'element-plus'
 
 localStorage.removeItem('token')
 
@@ -84,6 +82,8 @@ const submitForm = async (formEl) => {
         if (res.code === 1) {
           userStore.setAuth({ username: 'yang' }, res.data.token)
           router.push('/')
+        } else {
+          ElMessage.error('用户名或密码错误')
         }
       })
     } else {

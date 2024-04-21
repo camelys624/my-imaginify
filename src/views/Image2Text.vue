@@ -50,7 +50,7 @@
 import { ref } from 'vue'
 import { uploadImg, imgOcr } from '@/api'
 import { UploadFilled } from '@element-plus/icons-vue'
-import { ElLoading } from 'element-plus'
+import { ElLoading, ElMessage } from 'element-plus'
 import ImageHistory from '@/components/ImageHistory.vue'
 
 const imageUrl = ref('')
@@ -80,12 +80,18 @@ const customUpload = ({ file }) => {
       hasUploaded.value = true
     }
 
+    ElMessage({
+      message: res.code ? '上传成功' : '上传失败',
+      grouping: true,
+      type: res.code ? 'success' : 'error'
+    })
+
     loading.close()
   })
 }
 
 const generate = () => {
-  if (!imageName) return
+  if (!imageName) return ElMessage.error('请先上传图片')
   imgOcr({ imageName }).then((res) => {
     if (res.code) {
       generated.value = true
@@ -101,6 +107,7 @@ const handleCopy = () => {
 
   navigator.clipboard.writeText(content.value).then(() => {
     console.log('copy success')
+    ElMessage.success('复制成功')
   })
 }
 
