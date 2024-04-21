@@ -7,39 +7,13 @@
           欢迎来到我们的AI图像处理网站！<br />
           修复、移除对象、更换背景、文本识别一键搞定！
         </p>
-        <el-form
-          ref="loginForm"
-          :rules="rules"
-          :model="form"
-          label-width="auto"
-          label-position="top"
-          style="max-width: 500px"
-        >
-          <el-form-item label="用户名" prop="username">
-            <el-input v-model="form.username" />
-          </el-form-item>
-          <el-form-item label="密码" prop="password">
-            <el-input v-model="form.password" />
-            <!-- <el-link type="primary" style="position: absolute; bottom: 0;">忘记密码</el-link> -->
-          </el-form-item>
-          <el-form-item>
-            <el-link :underline="false" type="primary" style="position: absolute; right: 0"
-              >忘记密码</el-link
-            >
-          </el-form-item>
-          <el-form-item>
-            <el-button
-              type="primary"
-              style="width: 100%; background: var(--system-bg); border: none"
-              @click="submitForm(loginForm)"
-              >登录</el-button
-            >
-          </el-form-item>
-          <el-divider border-style="dashed">还没有账号？</el-divider>
-          <el-form-item>
-            <el-button plain style="width: 100%">立即注册</el-button>
-          </el-form-item>
-        </el-form>
+        <LoginForm
+          v-if="showLogin"
+          :username="username"
+          @submit="handleLogin"
+          @register="toggleForm(false)"
+        />
+        <RegisterForm v-else @submit="handleRegister" @login="toggleForm(true)" />
       </div>
       <div class="img-wrapper">
         <img src="@/assets/login.jpg" alt="login" />
@@ -49,47 +23,49 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import IconLogo from '@/components/icons/IconLogo.vue'
-import { loginApi } from './api/index'
+import { loginApi, registerApi } from './api/index'
 import { useCounterStore } from '@/stores/auth'
 import { ElMessage } from 'element-plus'
+import LoginForm from './components/LoginForm.vue'
+import RegisterForm from './components/RegisterForm.vue'
+import { ref } from 'vue'
 
 localStorage.removeItem('token')
 
-const loginForm = ref()
-
-const form = reactive({
-  username: '',
-  password: ''
-})
-
-const rules = reactive({
-  username: [{ required: true, message: '用户名不能为空', trigger: 'blur' }],
-  password: [{ required: true, message: '密码不能为空', trigger: 'blur' }]
-})
 const router = useRouter()
 
 const userStore = useCounterStore()
 
-const submitForm = async (formEl) => {
-  if (!formEl) return
+const showLogin = ref(true)
+const username = ref('')
 
-  await formEl.validate((valid, fields) => {
-    if (valid) {
-      loginApi({ ...form }).then((res) => {
-        if (res.code === 1) {
-          userStore.setAuth({ username: 'yang' }, res.data.token)
-          router.push('/')
-        } else {
-          ElMessage.error('用户名或密码错误')
-        }
-      })
+const handleLogin = async (form) => {
+  loginApi({ ...form }).then((res) => {
+    if (res.code === 1) {
+      userStore.setAuth({ username: 'yang' }, res.data.token)
+      router.push('/')
     } else {
-      console.log('error submit!', fields)
+      ElMessage.error('用户名或密码错误')
     }
   })
+}
+
+const handleRegister = (form) => {
+  registerApi({ ...form }).then((res) => {
+    if (res.code) {
+      ElMessage.success('注册完成，请登录')
+      username.value = form.username
+      toggleForm(true)
+    } else {
+      ElMessage.error('发生一些错误，请重试')
+    }
+  })
+}
+
+const toggleForm = (status) => {
+  showLogin.value = status
 }
 </script>
 
@@ -104,7 +80,7 @@ const submitForm = async (formEl) => {
 }
 
 .login-wrapper {
-  height: 500px;
+  /* height: 500px; */
   width: 800px;
   display: flex;
   padding: 10px;
@@ -130,5 +106,6 @@ const submitForm = async (formEl) => {
 .img-wrapper img {
   display: block;
   height: 100%;
+  object-fit: cover;
 }
 </style>
